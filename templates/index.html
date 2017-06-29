@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>C4E10</title>
+</head>
+
+
+<body>
+
+{#<img src="/images/warrent.png" alt="">#}
+
+{% for flower in flowers %}
+    <img src="{{ flower.image }}">
+    <h3>{{ flower.title }}</h3>
+    <p>{{ flower.price }}</p>
+{% endfor %}
+</body>
+</html>
