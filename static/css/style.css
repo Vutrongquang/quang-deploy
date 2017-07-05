@@ -1,0 +1,71 @@
+h1 {
+    color: red;
+}
+
+p {
+    font-weight: bold;
+}
+
+#p1 {
+    background: #F9FFBF;
+    width: 200px;
+    height: 100px;
+    padding: 30px;
+    border: 50px solid red;
+    margin: 30px;
+
+    }
+.comicsans{
+    font-family: "Comic Sans MS";
+}
+
+.bluetext{
+    color: blue;
+}
+
+[type = "text"]
+{
+    border: 2px dashed brown;
+}
+
+[href]{
+    text-shadow: 0px 0px #333333;
+}
+
+ul li {
+    list-style: none;
+}
+div > a {
+    font-style: italic;
+}
+
+img:hover {
+    box-shadow: 0 0 15px #777777;
+
+}
+
+a:active {
+    color: green;
+}
+
+input:focus {
+    border-radius: 8px;
+    outline: 0 none;
+}
+
+img {
+    border-radius: 100%;
+}
+/*
+h1: selector
+color: property
+red - value
+ */
+
+/*
+display: block
+display: inline
+display: inline-block
+display: none
+
+ */

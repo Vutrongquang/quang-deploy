@@ -10,26 +10,28 @@ app = Flask(__name__)
 mlab.connect()
 
 app.config["IMG_PATH"] = os.path.join(app.root_path, "images")
+app.secret_key = "2fadsfsdfasdefawef"
+
 
 class Flower(Document):
     image = StringField()
     title = StringField()
     price = FloatField()
 
-flower1 = Flower(image="http://www.interrose.co.uk/images/products/black_background/r001_happy.jpg",
-                 title="Rose",
-                 price=10000
-                )
-
-flower2 = Flower(image="https://s-media-cache-ak0.pinimg.com/736x/78/a5/0e/78a50ef9eb93d584dbd6ba44499b7d51.jpg",
-                 title="Rose Blue",
-                 price=20000
-                )
-
-flower3 = Flower(image="http://blog-20c0.kxcdn.com/wp-content/uploads/2016/05/black-rose-1.jpg",
-                 title="Rose Black",
-                 price=10000
-                )
+# flower1 = Flower(image="http://www.interrose.co.uk/images/products/black_background/r001_happy.jpg",
+#                  title="Rose",
+#                  price=10000
+#                 )
+#
+# flower2 = Flower(image="https://s-media-cache-ak0.pinimg.com/736x/78/a5/0e/78a50ef9eb93d584dbd6ba44499b7d51.jpg",
+#                  title="Rose Blue",
+#                  price=20000
+#                 )
+#
+# flower3 = Flower(image="http://blog-20c0.kxcdn.com/wp-content/uploads/2016/05/black-rose-1.jpg",
+#                  title="Rose Black",
+#                  price=10000
+#                 )
 
 # flower1.save()
 # flower2.save()
@@ -70,30 +72,57 @@ def image(image_name):
 def about():
     return "FAp"
 
+@app.route("/login", methods= ["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+
+    elif request.method == "POST":
+        form = request.form
+        username = form["username"]
+        password = form["password"]
+
+        if username == "admin" and password == "admin":
+
+            session["logged_in"] = True
+            return redirect(url_for("index"))
+        else:
+            return "Invalid credentials"
+
 @app.route("/add_flower", methods=["GET", "POST"])
 def add_flower():
-    if request.method == "GET": #FORM REQUESTED
-        return render_template("add_flower.html")
+    if "logged_in" in session and session ["logged_in"]:
 
-    elif request.method == "POST": #USER SUBMITTED FAN
-        # 1: gET DATA (title , image, price)
-        form = request.form
-        title = form["title"]
-        price = form["price"]
+        if request.method == "GET": #FORM REQUESTED
+            return render_template("add_flower.html")
 
-        image = request.files["image"]
-        filename = secure_filename(image.filename)
+        elif request.method == "POST": #USER SUBMITTED FAN
+            # 1: gET DATA (title , image, price)
+            form = request.form
+            title = form["title"]
+            price = form["price"]
 
-        image.save(os.path.join(app.config["IMG_PATH"], filename))
+            image = request.files["image"]
+            filename = secure_filename(image.filename)
 
-        print(filename)
+            image.save(os.path.join(app.config["IMG_PATH"], filename))
 
-        # 2: Save data into database
-        new_flower = Flower(title= title,
-                            image = "/images/{0}".format(filename),
-                            price = price)
-        new_flower.save()
-        return  redirect(url_for("index"))
+            print(filename)
+
+            # 2: Save data into database
+            new_flower = Flower(title= title,
+                                image = "/images/{0}".format(filename),
+                                price = price)
+            new_flower.save()
+            return  redirect(url_for("index"))
+
+    else:
+        return redirect(url_for("login"))
+
+@app.route("/logout")
+def logout():
+    session ["logged_in"] = False
+    return redirect(url_for("login"))
 
 @app.route("/users/<username>")
 def user(username):

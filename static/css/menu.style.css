@@ -1,0 +1,25 @@
+nav {
+    background: #D5B0AC;
+    padding-left: 50px;
+}
+
+span {
+    text: #402E2A;
+    font-weight: bold;
+    display: inline-block;
+    /*padding: 100px;
+    /*width: 100px;
+    height: 30px;
+    padding-left: 40px;
+    padding-top: 10px
+
+*/}
+
+span:hover {
+    box-shadow: 0 0 15px #FFFFFF;
+    background: #9CD08F;
+}
+
+a.menu_links { cursor: pointer; }
+
+
